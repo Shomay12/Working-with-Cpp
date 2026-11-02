@@ -10,7 +10,7 @@ int main()
 
     float ab = 10003;
     string id = to_string(ab);
-    string abc = id + "helllo this is me ";
+    string abc = id + " helllo this is me ";
     cout << abc << endl;
 
     cout << roundedTeaPrice << endl;

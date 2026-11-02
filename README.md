@@ -35,13 +35,18 @@ My goal with this repository is to build deep foundational knowledge in C++ to e
 │   │   ├── v3.cpp             # Variables, const correctness, string formatting
 │   │   └── cpp_v3.txt         # Data pipeline: Store -> Process -> Display
 │   │
-│   └── 02_datatype/           # Type system breakdown
-│       └── v4.txt             # Primitive, Derived & User-Defined types with memory sizes
+│   └── 02_datatype/           # Type system, modifiers, casting & user input
+│       ├── v4.cpp             # Primitive types (int, float, double, char, bool)
+│       ├── modifier.cpp       # Modifiers (unsigned, long) & underflow/wrap-around
+│       ├── typecasting.cpp    # Explicit C-style casting & to_string() conversions
+│       ├── myString.cpp       # std::string mechanics & escape sequences (\n, \t, \")
+│       ├── user_ip.cpp        # User input handling: cin >> and getline()
+│       └── v4.txt             # Deep dive: Primitive, Derived & User-Defined types
 │
 ├── .vscode/                   # IDE IntelliSense and include paths configuration
 ├── .clangd                    # Clangd language server compiler flags
 ├── Makefile                   # Fast build configurations
-└── README.md                  # Project overview and notes
+└── README.md                  # Project documentation & notes
 ```
 
 ---
@@ -57,12 +62,24 @@ My goal with this repository is to build deep foundational knowledge in C++ to e
 - **Variables vs. Constants:** Why `const` variables must be initialized at definition time and cannot be reassigned.
 - **String Formatting & I/O:** Using stream insertion `<<` versus pointer arithmetic pitfalls (`"string" + int`).
 
-### 3. Data Types & Memory Sizes
-| Category | Types | Typical Size (bytes) | Description |
+### 3. Data Types & Type System
+| Category | Types | Typical Size | Description |
 | :--- | :--- | :--- | :--- |
-| **Primitive** | `bool`, `char`, `int`, `float`, `double`, `void` | 1 to 8 bytes | Fundamental types built directly into the language |
+| **Primitive** | `bool`, `char`, `short`, `int`, `long`, `float`, `double`, `void` | 1 to 8 bytes | Fundamental types built directly into the language |
 | **Derived** | Arrays, Functions, Pointers (`*`), References (`&`) | Architecture dependent | Types constructed from primitive foundations |
 | **User-Defined** | `struct`, `class`, `union`, `enum`, `typedef` | Custom footprint | Custom data structures designed by the developer |
+
+- **Type Modifiers (`unsigned`, `long`, `short`):**
+  - `unsigned int`: Restricts values to non-negative numbers, doubling the positive range ($0$ to $4{,}294{,}967{,}295$). Passing a negative value causes integer underflow / wrap-around (e.g. `-100` becomes `4294967196`).
+  - `long` / `long long`: Extends the integer capacity to represent large datasets.
+- **Type Casting & Conversions:**
+  - Explicit C-style cast: `(int)priceOfTea` truncates decimal fractions.
+  - String conversions: `std::to_string(value)` for converting numerical values into concatenable strings.
+- **Strings & Escape Sequences:**
+  - Special characters: `\n` (newline), `\t` (tab), `\"` / `\'` (escaped quotes), `\b` (backspace).
+- **User Input & Stream Handling:**
+  - `cin >> var`: Reads single tokens separated by whitespace.
+  - `getline(cin, str)`: Reads full lines including spaces (essential for full names or multi-word sentences).
 
 ### 4. Linear Algebra & Numerical Computing (Eigen 3)
 - Integrating header-only linear algebra libraries for matrix multiplications and vector transformations.
@@ -76,8 +93,8 @@ My goal with this repository is to build deep foundational knowledge in C++ to e
 Using `clang++` (macOS / Linux):
 
 ```zsh
-# Compile and run a basic file:
-clang++ code_notes/intro_to_cpp/intro.cpp -o intro && ./intro
+# Compile and run any program:
+clang++ code_notes/02_datatype/user_ip.cpp -o user_ip && ./user_ip
 ```
 
 ### Compiling with External Libraries (e.g. Eigen)
@@ -99,8 +116,12 @@ clang++ -I/opt/homebrew/include/eigen3 code_notes/intro_to_cpp/v2.cpp -o v2 && .
 - [x] C++ Basics, Compilation & Namespaces
 - [x] Variables, `const` semantics & Stream I/O
 - [x] Data Types & Memory Footprint Analysis
+- [x] Type Modifiers (`unsigned`, `long`) & Underflow Behavior
+- [x] Type Casting & String Conversions (`to_string`)
+- [x] Strings, Escape Sequences & User Input (`cin`, `getline`)
 - [x] Third-party Library Integration (Eigen 3)
-- [ ] Control Flow, Loops & Functions
+- [ ] Control Flow, Conditionals & Loops
+- [ ] Functions, Overloading & Scope
 - [ ] Pointers, References & Dynamic Memory (`new`/`delete`)
 - [ ] Object-Oriented Programming (Classes, Inheritance, Polymorphism)
 - [ ] Modern C++ (Smart Pointers, Lambdas, Move Semantics, RAII)
