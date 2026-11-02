@@ -1,0 +1,13 @@
+Opertors 
+
+mathematical sings and things like sum , multiply , substract etc are the operators
+
+opertors which are basically use to perform a 
+operations in mathematical way or logical way
+ (operand 1)<---2+--->(operator)2----->(operand2)=4
+
+ operator:- 1. unary , 2. binary ,3. ternary 
+
+ conditionals - there is a value we do the evaluation -----> evaluation(always in the true false )
+
+ 
