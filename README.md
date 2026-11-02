@@ -1,135 +1,154 @@
-# 🚀 Working with C++ (ML Core & Systems Journey)
+<div align="center">
 
-[![Language: C++](https://img.shields.io/badge/Language-C%2B%2B17%20%2F%20C%2B%2B20-blue.svg)](https://isocpp.org/)
-[![Compiler: Apple Clang](https://img.shields.io/badge/Compiler-Apple%20Clang-orange.svg)](https://clang.llvm.org/)
-[![Libraries: Eigen](https://img.shields.io/badge/Libraries-Eigen%203-red.svg)](https://eigen.tuxfamily.org/)
-[![Focus: ML Core & CPython](https://img.shields.io/badge/Focus-Systems%20%7C%20ML%20Core%20%7C%20Inference-green.svg)](#motivation)
+```text
+  ██████╗ ██████╗ ██████╗     ███╗   ███╗██╗          ██████╗ ██████╗ ██████╗ ███████╗
+ ██╔════╝██╔══██╗██╔══██╗    ████╗ ████║██║         ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+ ██║     ██████╔╝██████╔╝    ██╔████╔██║██║         ██║     ██║   ██║██████╔╝█████╗  
+ ██║     ██╔═══╝ ██╔═══╝     ██║╚██╔╝██║██║         ██║     ██║   ██║██╔══██╗██╔══╝  
+ ╚██████╗██║     ██║         ██║ ╚═╝ ██║███████╗    ╚██████╗╚██████╔╝██║  ██║███████╗
+  ╚═════╝╚═╝     ╚═╝         ╚═╝     ╚═╝╚══════╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+```
 
-Welcome to my C++ learning journey! This repository documents my hands-on exploration of C++, from system-level fundamentals, memory layout, and compiler internals to linear algebra libraries (Eigen) and high-performance computing.
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=19&duration=2500&pause=1000&color=00F0FF&center=true&vCenter=true&width=700&lines=%24+clang%2B%2B+-O3+-std%3Dc%2B%2B20+-march%3Dnative;SYSTEMS+PROGRAMMING+%7C+BARE+METAL+TO+TENSORS;REVERSE-ENGINEERING+CPYTHON+AND+INFERENCE+RUNTIMES;DIRECT+MEMORY+ALLOCATION.+ZERO+GARBAGE+COLLECTION." alt="Terminal Output" />
+
+<br/>
+
+[![C++ Standard](https://img.shields.io/badge/C%2B%2B-17%20%7C%2020-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
+[![Toolchain](https://img.shields.io/badge/TOOLCHAIN-Apple_Clang_ARM64-FF9900?style=for-the-badge&logo=apple&logoColor=white)](https://clang.llvm.org/)
+[![Linear Algebra](https://img.shields.io/badge/MATH_ENGINE-Eigen_3-D00000?style=for-the-badge)](https://eigen.tuxfamily.org/)
+[![Target](https://img.shields.io/badge/TARGET-CPython_Core_%26_Inference-00F0FF?style=for-the-badge)](https://github.com/Shomay12/Working-with-Cpp)
+
+</div>
 
 ---
 
-## 🎯 Motivation & Goals
+### ARCHITECTURAL OBJECTIVE
 
-> *"To master machine learning from first principles, you must understand the engine beneath the hood."*
+High-performance computing, neural runtime execution, and tensor mathematics demand unmediated control over hardware memory hierarchies, cache alignment, and instruction throughput.
 
-My goal with this repository is to build deep foundational knowledge in C++ to eventually:
-- **Understand CPython Internals & Extensions:** Dive into Python's C runtime and write native C/C++ extensions.
-- **Build Custom ML Inference Engines:** Understand how frameworks like PyTorch, TensorFlow, and ONNX Runtime execute tensor math at hardware-level efficiency.
-- **Master Direct Memory Management:** Harness raw pointers, cache locality, and explicit resource management without relying on garbage collection.
+This repository tracks the systematic breakdown and reconstruction of low-level systems programming in C++:
+* **Hardware Memory Mechanics:** Pointer arithmetic, stack vs. heap allocation, memory alignment, cache spatial/temporal locality.
+* **CPython Execution Layer:** Demystifying CPython object models (`PyObject`), reference counting, and high-throughput C/C++ extension bindings.
+* **Tensor & Inference Runtimes:** Constructing custom SIMD-optimized linear algebra operations, GEMM kernels, and compute graphs from first principles.
 
 ---
 
-## 📂 Repository Structure
+### COMPILATION PIPELINE
+
+```mermaid
+flowchart LR
+    A["Source Code (.cpp)"] --> B["Clang Preprocessor"]
+    B --> C["LLVM Clang Compiler"]
+    C --> D["Target Code Optimization (ARM64)"]
+    D --> E["Linker (Mach-O Binary)"]
+    
+    style A fill:#0d1117,stroke:#30363d,stroke-width:2px,color:#58a6ff
+    style B fill:#0d1117,stroke:#30363d,stroke-width:2px,color:#7ee787
+    style C fill:#0d1117,stroke:#30363d,stroke-width:2px,color:#ffa657
+    style D fill:#0d1117,stroke:#30363d,stroke-width:2px,color:#d2a8ff
+    style E fill:#0d1117,stroke:#238636,stroke-width:2px,color:#3fb950
+```
+
+---
+
+### REPOSITORY MATRIX
 
 ```plaintext
-.
+cpp/
 ├── code_notes/
-│   ├── intro_to_cpp/          # Foundations, compiler flow, namespaces & Eigen demo
-│   │   ├── intro.cpp          # Classic Hello World & standard I/O
-│   │   ├── v2.cpp             # Custom namespaces, standard streams & Eigen matrices
-│   │   ├── cpp_intro.txt      # Core concepts: why C++, compilation stages, father of C++
-│   │   └── cpp_v2.txt         # Namespaces, directives & header mechanics
+│   ├── intro_to_cpp/
+│   │   ├── intro.cpp          # I/O streams and runtime entrypoints
+│   │   ├── v2.cpp             # Namespace isolation, Eigen matrix allocations
+│   │   ├── cpp_intro.txt      # Compilation stages & architecture notes
+│   │   └── cpp_v2.txt         # Linker & header resolution mechanics
 │   │
-│   ├── 01_varconst/           # Variables, immutability & memory representation
-│   │   ├── v3.cpp             # Variables, const correctness, string formatting
-│   │   └── cpp_v3.txt         # Data pipeline: Store -> Process -> Display
+│   ├── 01_varconst/
+│   │   ├── v3.cpp             # Memory immutability, const semantics, stream routing
+│   │   └── cpp_v3.txt         # Memory lifecycle: Allocation -> Mutation -> Sink
 │   │
-│   └── 02_datatype/           # Type system, modifiers, casting & user input
-│       ├── v4.cpp             # Primitive types (int, float, double, char, bool)
-│       ├── modifier.cpp       # Modifiers (unsigned, long) & underflow/wrap-around
-│       ├── typecasting.cpp    # Explicit C-style casting & to_string() conversions
-│       ├── myString.cpp       # std::string mechanics & escape sequences (\n, \t, \")
-│       ├── user_ip.cpp        # User input handling: cin >> and getline()
-│       └── v4.txt             # Deep dive: Primitive, Derived & User-Defined types
+│   └── 02_datatype/
+│       ├── v4.cpp             # IEEE-754 floats, integer representations
+│       ├── modifier.cpp       # Signed vs. unsigned bits, integer wrap-around & underflow
+│       ├── typecasting.cpp    # Explicit C-style casting, numeric string serialization
+│       ├── myString.cpp       # Byte sequences, escape control characters
+│       ├── user_ip.cpp        # Stream buffering: cin vs. getline
+│       └── v4.txt             # Primitive, derived, and user-defined type definitions
 │
-├── .vscode/                   # IDE IntelliSense and include paths configuration
-├── .clangd                    # Clangd language server compiler flags
-├── Makefile                   # Fast build configurations
-└── README.md                  # Project documentation & notes
+├── .vscode/                   # LSP & include path configurations
+├── .clangd                    # Clangd flags (-I/opt/homebrew/include/eigen3)
+├── Makefile                   # Deterministic build directives
+└── README.md                  # System architecture manual
 ```
 
 ---
 
-## 🧠 Topics & Key Takeaways
+### MEMORY & TYPE TOPOLOGY
 
-### 1. Introduction & Compilation Flow
-- **Compilation Model:** `Source Code (.cpp)` ➔ `Pre-processing` ➔ `Compilation (Clang)` ➔ `Assembly / Object Code` ➔ `Linker` ➔ `Native Binary`.
-- **Pre-processor Directives:** `#include <iostream>`, `#include <Eigen/Dense>`.
-- **Namespaces:** Isolating scope using `namespace myName { ... }` and avoiding name clashing (`using namespace std;`).
+```mermaid
+graph TD
+    subgraph Data_Types ["Data Type Hierarchy"]
+        direction TB
+        ROOT["Data Types"]
+        PRIM["Primitive Types<br/>bool (1B) | char (1B) | int (4B) | float (4B) | double (8B)"]
+        DERIV["Derived Types<br/>Arrays | Functions | Pointers (*) | References (&)"]
+        USER["User-Defined Types<br/>struct | class | union | enum | typedef"]
+        
+        ROOT --> PRIM
+        ROOT --> DERIV
+        ROOT --> USER
+    end
 
-### 2. Variables & Constants (`const`)
-- **Variables vs. Constants:** Why `const` variables must be initialized at definition time and cannot be reassigned.
-- **String Formatting & I/O:** Using stream insertion `<<` versus pointer arithmetic pitfalls (`"string" + int`).
+    style Data_Types fill:#0d1117,stroke:#30363d,stroke-width:1px,color:#c9d1d9
+    style ROOT fill:#161b22,stroke:#58a6ff,stroke-width:2px,color:#58a6ff
+    style PRIM fill:#161b22,stroke:#7ee787,stroke-width:1px,color:#7ee787
+    style DERIV fill:#161b22,stroke:#ffa657,stroke-width:1px,color:#ffa657
+    style USER fill:#161b22,stroke:#d2a8ff,stroke-width:1px,color:#d2a8ff
+```
 
-### 3. Data Types & Type System
-| Category | Types | Typical Size | Description |
-| :--- | :--- | :--- | :--- |
-| **Primitive** | `bool`, `char`, `short`, `int`, `long`, `float`, `double`, `void` | 1 to 8 bytes | Fundamental types built directly into the language |
-| **Derived** | Arrays, Functions, Pointers (`*`), References (`&`) | Architecture dependent | Types constructed from primitive foundations |
-| **User-Defined** | `struct`, `class`, `union`, `enum`, `typedef` | Custom footprint | Custom data structures designed by the developer |
-
-- **Type Modifiers (`unsigned`, `long`, `short`):**
-  - `unsigned int`: Restricts values to non-negative numbers, doubling the positive range ($0$ to $4{,}294{,}967{,}295$). Passing a negative value causes integer underflow / wrap-around (e.g. `-100` becomes `4294967196`).
-  - `long` / `long long`: Extends the integer capacity to represent large datasets.
-- **Type Casting & Conversions:**
-  - Explicit C-style cast: `(int)priceOfTea` truncates decimal fractions.
-  - String conversions: `std::to_string(value)` for converting numerical values into concatenable strings.
-- **Strings & Escape Sequences:**
-  - Special characters: `\n` (newline), `\t` (tab), `\"` / `\'` (escaped quotes), `\b` (backspace).
-- **User Input & Stream Handling:**
-  - `cin >> var`: Reads single tokens separated by whitespace.
-  - `getline(cin, str)`: Reads full lines including spaces (essential for full names or multi-word sentences).
-
-### 4. Linear Algebra & Numerical Computing (Eigen 3)
-- Integrating header-only linear algebra libraries for matrix multiplications and vector transformations.
-- Setting up compiler include paths (`-I/opt/homebrew/include/eigen3`).
+#### Core Hardware & Language Mechanics
+* **Bit Widths & Modifiers:** `unsigned int` shifts the signed integer range $[-2^{31}, 2^{31}-1]$ strictly positive $[0, 2^{32}-1]$. Supplying negative literals directly invokes two's complement modulo wrap-around (`-100` becomes `4294967196`).
+* **Immutability Contract:** `const` qualifiers enforce compile-time read-only storage and must be initialized at definition site.
+* **Vector Math (Eigen 3):** SIMD-vectorized matrix operations executed without heap overhead via header-only template specialization.
 
 ---
 
-## 🛠️ How to Compile & Run
+### TOOLCHAIN COMMANDS
 
-### Standard Compilation
-Using `clang++` (macOS / Linux):
-
+#### Native Binary Compilation
 ```zsh
-# Compile and run any program:
-clang++ code_notes/02_datatype/user_ip.cpp -o user_ip && ./user_ip
+clang++ -std=c++17 -Wall -Wextra code_notes/02_datatype/user_ip.cpp -o user_ip
+./user_ip
 ```
 
-### Compiling with External Libraries (e.g. Eigen)
-Because Eigen is installed via Homebrew (`/opt/homebrew/include/eigen3`), provide the include path with `-I`:
-
+#### Linear Algebra Target (Eigen Integration)
 ```zsh
-clang++ -I/opt/homebrew/include/eigen3 code_notes/intro_to_cpp/v2.cpp -o v2 && ./v2
+clang++ -std=c++17 -I/opt/homebrew/include/eigen3 code_notes/intro_to_cpp/v2.cpp -o v2
+./v2
 ```
 
-> **Tip:** To avoid typing `-I...` every time, export it to your shell environment:
-> ```zsh
-> export CPLUS_INCLUDE_PATH="/opt/homebrew/include/eigen3:$CPLUS_INCLUDE_PATH"
-> ```
+#### CPU Cycle Instrumentation
+```zsh
+time ./v2
+```
 
 ---
 
-## 🗺️ Learning Roadmap
+### EXECUTION ROADMAP
 
-- [x] C++ Basics, Compilation & Namespaces
-- [x] Variables, `const` semantics & Stream I/O
-- [x] Data Types & Memory Footprint Analysis
-- [x] Type Modifiers (`unsigned`, `long`) & Underflow Behavior
-- [x] Type Casting & String Conversions (`to_string`)
-- [x] Strings, Escape Sequences & User Input (`cin`, `getline`)
-- [x] Third-party Library Integration (Eigen 3)
-- [ ] Control Flow, Conditionals & Loops
-- [ ] Functions, Overloading & Scope
-- [ ] Pointers, References & Dynamic Memory (`new`/`delete`)
-- [ ] Object-Oriented Programming (Classes, Inheritance, Polymorphism)
-- [ ] Modern C++ (Smart Pointers, Lambdas, Move Semantics, RAII)
-- [ ] CPython C-API / Pybind11 Integration
-- [ ] Custom Matrix & Tensor Engine from scratch
+- [x] Compilation pipeline, namespaces, and standard stream buffers
+- [x] Const correctness, immutability, and stream routing
+- [x] Memory layout analysis across 32-bit and 64-bit primitive types
+- [x] Two's complement integer wrap-around & underflow analysis
+- [x] Typecasting, explicit conversions, and string serializations
+- [x] Header-only SIMD matrix math integration (Eigen 3)
+- [ ] Control flow optimizations & branch prediction mechanics
+- [ ] Direct heap allocation, pointers, references, and pointer arithmetic
+- [ ] Cache-coherent structures (Struct of Arrays vs. Array of Structs)
+- [ ] CPython C-API bindings & native extension loading
+- [ ] Custom lightweight tensor computation engine
 
 ---
 
-## 👤 Author
-**Shomay Singh**  
-Exploring Machine Learning Core, Systems Programming & C++.
+<div align="center">
+<sub>Shomay Singh // Machine Learning Core & Systems Research</sub>
+</div>
