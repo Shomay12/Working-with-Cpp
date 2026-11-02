@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070c17" />
+      <stop offset="100%" stop-color="#03050a" />
+    </linearGradient>
+    <filter id="neon">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes flow1 {
+      0% { stroke-dashoffset: 80; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    .mono { font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace; }
+    .bus-stream {
+      stroke-dasharray: 6, 8;
+      animation: flow1 1.2s linear infinite;
+    }
+    .node-glow { animation: pulseGlow 2.5s ease-in-out infinite; transform-origin: center; }
+  </style>
+
+  <!-- Canvas Container -->
+  <rect width="900" height="240" rx="12" fill="url(#bgBox)" stroke="#1a273b" stroke-width="1.5"/>
+
+  <!-- Title bar -->
+  <text x="35" y="32" class="mono" font-size="12" font-weight="800" fill="#00f0ff" letter-spacing="2">
+    HARDWARE LATENCY &amp; CACHE ACCESS PIPELINE
+  </text>
+  <text x="865" y="32" text-anchor="end" class="mono" font-size="11" fill="#4d6582">
+    BUS BANDWIDTH: 400 GB/s (UNIFIED MEMORY)
+  </text>
+  <line x1="35" y1="45" x2="865" y2="45" stroke="#1c2d44" stroke-width="1" />
+
+  <!-- Connecting Animated Data Bus Lines -->
+  <line x1="150" y1="130" x2="750" y2="130" stroke="#16253b" stroke-width="6" stroke-linecap="round"/>
+  <line x1="150" y1="130" x2="750" y2="130" stroke="#00f0ff" stroke-width="3" stroke-linecap="round" class="bus-stream"/>
+
+  <!-- Level 0: Registers -->
+  <g transform="translate(60, 75)">
+    <rect width="130" height="110" rx="8" fill="#0b1324" stroke="#00f0ff" stroke-width="1.5" />
+    <circle cx="65" cy="22" r="12" fill="#00f0ff" fill-opacity="0.15" />
+    <text x="65" y="26" text-anchor="middle" class="mono" font-size="11" font-weight="900" fill="#00f0ff">L0</text>
+    <text x="65" y="52" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#ffffff">REGISTERS</text>
+    <text x="65" y="72" text-anchor="middle" class="mono" font-size="10" fill="#39ff14">~0.3 ns</text>
+    <text x="65" y="90" text-anchor="middle" class="mono" font-size="9" fill="#627d9d">1 CYCLE</text>
+  </g>
+
+  <!-- Level 1: L1 Cache -->
+  <g transform="translate(225, 75)">
+    <rect width="130" height="110" rx="8" fill="#0b1324" stroke="#39ff14" stroke-width="1.5" />
+    <circle cx="65" cy="22" r="12" fill="#39ff14" fill-opacity="0.15" />
+    <text x="65" y="26" text-anchor="middle" class="mono" font-size="11" font-weight="900" fill="#39ff14">L1</text>
+    <text x="65" y="52" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#ffffff">L1 CACHE</text>
+    <text x="65" y="72" text-anchor="middle" class="mono" font-size="10" fill="#39ff14">~1.2 ns</text>
+    <text x="65" y="90" text-anchor="middle" class="mono" font-size="9" fill="#627d9d">4 CYCLES</text>
+  </g>
+
+  <!-- Level 2: L2 Cache -->
+  <g transform="translate(390, 75)">
+    <rect width="130" height="110" rx="8" fill="#0b1324" stroke="#ffa657" stroke-width="1.5" />
+    <circle cx="65" cy="22" r="12" fill="#ffa657" fill-opacity="0.15" />
+    <text x="65" y="26" text-anchor="middle" class="mono" font-size="11" font-weight="900" fill="#ffa657">L2</text>
+    <text x="65" y="52" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#ffffff">L2 CACHE</text>
+    <text x="65" y="72" text-anchor="middle" class="mono" font-size="10" fill="#ffa657">~3.5 ns</text>
+    <text x="65" y="90" text-anchor="middle" class="mono" font-size="9" fill="#627d9d">12 CYCLES</text>
+  </g>
+
+  <!-- Level 3: L3 Cache -->
+  <g transform="translate(555, 75)">
+    <rect width="130" height="110" rx="8" fill="#0b1324" stroke="#d2a8ff" stroke-width="1.5" />
+    <circle cx="65" cy="22" r="12" fill="#d2a8ff" fill-opacity="0.15" />
+    <text x="65" y="26" text-anchor="middle" class="mono" font-size="11" font-weight="900" fill="#d2a8ff">L3</text>
+    <text x="65" y="52" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#ffffff">L3 CACHE</text>
+    <text x="65" y="72" text-anchor="middle" class="mono" font-size="10" fill="#d2a8ff">~12 ns</text>
+    <text x="65" y="90" text-anchor="middle" class="mono" font-size="9" fill="#627d9d">40 CYCLES</text>
+  </g>
+
+  <!-- Level 4: Main RAM -->
+  <g transform="translate(720, 75)">
+    <rect width="130" height="110" rx="8" fill="#0b1324" stroke="#ff0055" stroke-width="1.5" />
+    <circle cx="65" cy="22" r="12" fill="#ff0055" fill-opacity="0.15" />
+    <text x="65" y="26" text-anchor="middle" class="mono" font-size="11" font-weight="900" fill="#ff0055">RAM</text>
+    <text x="65" y="52" text-anchor="middle" class="mono" font-size="12" font-weight="700" fill="#ffffff">MAIN HEAP</text>
+    <text x="65" y="72" text-anchor="middle" class="mono" font-size="10" fill="#ff0055">~60 ns</text>
+    <text x="65" y="90" text-anchor="middle" class="mono" font-size="9" fill="#627d9d">200 CYCLES</text>
+  </g>
+
+  <!-- Bottom Legend -->
+  <text x="450" y="215" text-anchor="middle" class="mono" font-size="11" fill="#627d9d">
+    <tspan fill="#39ff14">FASTEST</tspan> &larr;&mdash;&mdash;&mdash; Data Proximity vs Latency Penalty &mdash;&mdash;&mdash;&rarr; <tspan fill="#ff0055">PAGE FAULTS</tspan>
+  </text>
+</svg>

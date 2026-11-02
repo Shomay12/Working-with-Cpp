@@ -1,15 +1,6 @@
 <div align="center">
 
-```text
-  ██████╗ ██████╗ ██████╗ 
- ██╔════╝██╔══██╗██╔══██╗
- ██║     ██████╔╝██████╔╝
- ██║     ██╔═══╝ ██╔═══╝ 
- ╚██████╗██║     ██║     
-  ╚═════╝╚═╝     ╚═╝     
-```
-
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=18&duration=2500&pause=1000&color=00F0FF&center=true&vCenter=true&width=720&lines=%24+clang%2B%2B+-O3+-std%3Dc%2B%2B20+-march%3Dnative+core.cpp+-o+binary;SYSTEMS+PROGRAMMING+%7C+BARE+METAL+MEMORY+CONTROL;RECONSTRUCTING+CPYTHON+RUNTIME+AND+NATIVE+INTERNALS;EXPLICIT+ALLOCATIONS.+ZERO+GARBAGE+COLLECTOR." alt="Terminal Output" />
+<img src="assets/hero_banner.svg" alt="C++ Systems Engine Header" width="100%" />
 
 <br/>
 
@@ -36,6 +27,20 @@ High-performance computing and native engine architecture require direct governa
 │ CPython Virtual Machine     Native C API extensions, PyObject references  │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+### HARDWARE LATENCY & CACHE PIPELINE
+
+<div align="center">
+  <img src="assets/memory_bus.svg" alt="Hardware Cache Latency Pipeline" width="100%" />
+</div>
+
+Direct memory access speed scales drastically depending on where data resides relative to the CPU arithmetic logic units:
+* **Registers (L0):** Direct single-cycle instruction execution ($~0.3\text{ ns}$).
+* **L1 Data Cache:** Micro-architectural cache hits ($~4\text{ cycles}$).
+* **L2/L3 Shared Caches:** Inter-core arbitration ($~12\text{ to }40\text{ cycles}$).
+* **Unified Memory (RAM):** Highest latency penalty ($~200\text{ cycles}$) when traversing virtual memory page tables.
 
 ---
 
@@ -74,7 +79,11 @@ flowchart TD
 
 ---
 
-### MEMORY TOPOLOGY & BIT-LEVEL REPRESENTATION
+### BITSTREAM ARCHITECTURE & MEMORY TOPOLOGY
+
+<div align="center">
+  <img src="assets/type_system.svg" alt="Bitstream Architecture and Primitive Layout" width="100%" />
+</div>
 
 ```mermaid
 graph LR
@@ -99,26 +108,6 @@ graph LR
     style TEXT fill:#161b22,stroke:#7ee787,color:#7ee787
 ```
 
-#### Two's Complement Integer Bit Layout (32-Bit System)
-
-```text
-VALUE: +100
-[0] 0000000000000000000000001100100
- ▲  └───────────────┬───────────────┘
- │                  └── Magnitude (100)
- └── Sign Bit: 0 (Positive)
-
-VALUE: -100 (Inverted bits + 1)
-[1] 1111111111111111111111110011100
- ▲  └───────────────┬───────────────┘
- │                  └── Two's Complement Encoding
- └── Sign Bit: 1 (Negative)
-
-UNDERFLOW DISRUPTION (Unsigned Interpretation):
-When read as unsigned int, the sign bit becomes 2^31:
-Result: 4,294,967,196 (0xFFFFFF9C)
-```
-
 ---
 
 ### STREAM I/O BUFFER ARCHITECTURE
@@ -141,6 +130,11 @@ flowchart LR
 
 ```plaintext
 cpp/
+├── assets/
+│   ├── hero_banner.svg        # Coded vector HUD with animated scanline
+│   ├── memory_bus.svg         # Animated hardware bus data stream
+│   └── type_system.svg        # IEEE-754 & binary bit-level map
+│
 ├── code_notes/
 │   ├── intro_to_cpp/
 │   │   ├── intro.cpp          # Entrypoint mechanics, standard streams
