@@ -1,148 +1,214 @@
-# Working with C++
+<div align="center">
 
-Technical notes, source code, and systems-level experiments covering C++ fundamentals, memory behavior, compiler mechanics, and numeric libraries.
+![C++ Systems Engine](assets/banner.svg)
 
----
+<br/>
 
-## Core Technical Concepts
+[![C++](https://img.shields.io/badge/SPEC-C%2B%2B17%20%2F%2020-ff003c?style=for-the-badge&logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
+[![Toolchain](https://img.shields.io/badge/ARCH-Apple_Silicon_ARM64-d50000?style=for-the-badge&logo=apple&logoColor=white)](https://clang.llvm.org/)
+[![Math Engine](https://img.shields.io/badge/MATH_ENGINE-Eigen_3-880e4f?style=for-the-badge)](https://eigen.tuxfamily.org/)
+[![Target](https://img.shields.io/badge/RUNTIME-CPython_Core_%26_Systems-b71c1c?style=for-the-badge)](https://github.com/Shomay12/Working-with-Cpp)
 
-### 1. Hardware Memory and Cache Latency
-
-Direct memory access speed depends on data proximity to the CPU arithmetic logic units:
-
-| Memory Level | Typical Latency | Access Cycles | Role |
-| :--- | :--- | :--- | :--- |
-| CPU Registers | ~0.3 ns | 1 cycle | Direct arithmetic and pointer operations |
-| L1 Cache | ~1.2 ns | 4 cycles | Per-core instruction and data cache |
-| L2 Cache | ~3.5 ns | 12 cycles | Mid-level per-core cache |
-| L3 Cache | ~12 ns | 40 cycles | Shared cache across cores |
-| Main Memory (RAM) | ~60 ns | ~200 cycles | Virtual memory pages, heap, dynamic allocations |
+</div>
 
 ---
 
-### 2. Compilation and Build Pipeline
-
-```mermaid
-flowchart TD
-    Source["Source Code (.cpp, .hpp)"] --> Preprocessor["Preprocessor (#include, macro expansion)"]
-    Preprocessor --> Compiler["LLVM Clang Compiler (AST, IR generation)"]
-    Compiler --> Optimizer["Optimizer (-O3, loop vectorization)"]
-    Optimizer --> Assembler["Assembly Generation (Mach-O ARM64)"]
-    Assembler --> Linker["Linker (Symbol resolution, external libraries)"]
-    Linker --> Binary["Executable Native Binary"]
-```
-
----
-
-### 3. Data Types and Memory Specifications
-
-Reference data compiled from platform specifications and code notes:
-
-| Data Type | Typical Size | Minimum Size | Range / Precision | Category |
-| :--- | :--- | :--- | :--- | :--- |
-| `bool` | 1 byte | 1 byte | true / false | Primitive |
-| `char` | 1 byte | 1 byte | -128 to 127 (signed) / 0 to 255 (unsigned) | Primitive |
-| `short` | 2 bytes | 2 bytes | -32,768 to 32,767 | Primitive |
-| `int` | 4 bytes | 2 bytes | -2,147,483,648 to 2,147,483,647 | Primitive |
-| `long` | 8 bytes (macOS 64-bit) | 4 bytes | -9.2 quintillion to 9.2 quintillion | Primitive |
-| `long long` | 8 bytes | 8 bytes | -9.2 quintillion to 9.2 quintillion | Primitive |
-| `float` | 4 bytes | 4 bytes | ~7 decimal digits (IEEE-754 single precision) | Primitive |
-| `double` | 8 bytes | 8 bytes | ~15 decimal digits (IEEE-754 double precision) | Primitive |
-| `void` | 0 bytes | 0 bytes | Incomplete type / valueless return | Primitive |
-| Array | N * sizeof(T) | Depends on T | Contiguous collection of identical elements | Derived |
-| Pointer (`*`) | 8 bytes (64-bit) | 8 bytes | Virtual memory address storage | Derived |
-| Reference (`&`) | 8 bytes (alias) | Architecture | Direct alias to an existing memory location | Derived |
-| `struct` | Sum of members + padding | 1 byte min | User-defined contiguous data bundle | User-Defined |
-| `class` | Sum of members + vtable | 1 byte min | Encapsulated OOP data structure | User-Defined |
-| `enum` | 4 bytes | 1 to 4 bytes | Named set of integral constants | User-Defined |
-| `union` | Size of largest member | Architecture | Overlapping shared memory allocation | User-Defined |
-| `typedef` | Alias size | N/A | Semantic type alias definition | User-Defined |
-
----
-
-### 4. Binary Representation and Integer Modifiers
-
-- Signed 32-bit integers reserve the most significant bit (MSB) as the sign indicator using two's complement notation.
-- The `unsigned` modifier converts all 32 bits into magnitude, shifting the range from $[-2^{31}, 2^{31}-1]$ strictly to $[0, 2^{32}-1]$ ($0$ to $4,294,967,295$).
-- Assigning a negative value to an unsigned type triggers modulo arithmetic:
-  An unsigned int assigned `-100` wraps around to `4294967196` ($2^{32} - 100$, hexadecimal `0xFFFFFF9C`).
-
----
-
-### 5. Stream I/O and Buffer Architecture
+## 1. HARDWARE CACHE & MEMORY ACCESS PIPELINE
 
 ```mermaid
 flowchart LR
-    Input["Keyboard Input"] --> Buffer["Standard Input Buffer (stdin)"]
-    Buffer -->|"cin >> token"| Token["Extracts word, stops at whitespace"]
-    Buffer -->|"getline(cin, str)"| Line["Extracts full line including spaces until newline"]
+    REG["L0: CPU Registers<br/>Latency: ~0.3 ns<br/>Cycles: 1 cycle"] --> L1["L1 Cache<br/>Latency: ~1.2 ns<br/>Cycles: 4 cycles"]
+    L1 --> L2["L2 Cache<br/>Latency: ~3.5 ns<br/>Cycles: 12 cycles"]
+    L2 --> L3["L3 Cache<br/>Latency: ~12 ns<br/>Cycles: 40 cycles"]
+    L3 --> RAM["DDR5 Main Memory<br/>Latency: ~60 ns<br/>Cycles: ~200 cycles"]
+
+    style REG fill:#3d0811,stroke:#ff003c,stroke-width:2px,color:#ffffff
+    style L1 fill:#33060e,stroke:#ff1744,stroke-width:2px,color:#ffcdd2
+    style L2 fill:#29040a,stroke:#d50000,stroke-width:2px,color:#ff8da1
+    style L3 fill:#1f0307,stroke:#b71c1c,stroke-width:2px,color:#ff6b81
+    style RAM fill:#140205,stroke:#880e4f,stroke-width:2px,color:#ff5252
 ```
 
-- `cin >>`: Leaves trailing newline characters in the buffer.
-- `getline(cin, string)`: Consumes the newline character, extracting multi-word input cleanly.
+| Memory Tier | Access Latency | Processor Cycles | Functional Role |
+| :--- | :--- | :--- | :--- |
+| CPU Registers | ~0.3 ns | 1 cycle | Direct instruction operands, accumulator, stack pointer |
+| L1 Cache | ~1.2 ns | 4 cycles | Core-private instruction (L1i) and data (L1d) caches |
+| L2 Cache | ~3.5 ns | 12 cycles | Mid-tier non-inclusive core buffer |
+| L3 Cache | ~12 ns | 40 cycles | Last-Level Cache (LLC) shared across all active execution cores |
+| Main Memory | ~60 ns | ~200 cycles | Physical RAM pages, operating system heap, dynamic memory |
 
 ---
 
-## Repository Structure
+## 2. LLVM CLANG CODEGEN & COMPILATION PIPELINE
+
+```mermaid
+flowchart TD
+    SRC["Source Code Files (.cpp, .hpp)"] --> PRE["Preprocessor: Macro Expansion and Header Resolution"]
+    PRE --> LEX["Lexer and Parser: Abstract Syntax Tree (AST) Generation"]
+    LEX --> IR["LLVM Intermediate Representation (LLVM-IR)"]
+    IR --> OPT["Optimization Engine: Loop Unrolling and SIMD Vectorization (-O3)"]
+    OPT --> ASM["Assembly Codegen: Mach-O ARM64 Instructions"]
+    ASM --> LINK["Linker: Symbol Resolution and Dynamic Library Linking"]
+    LINK --> BIN["Executable Mach-O ARM64 Binary"]
+
+    style SRC fill:#24050b,stroke:#ff1744,stroke-width:1.5px,color:#ffffff
+    style PRE fill:#1f0409,stroke:#ff003c,stroke-width:1.5px,color:#ffcdd2
+    style LEX fill:#1a0307,stroke:#d50000,stroke-width:1.5px,color:#ff8da1
+    style IR fill:#170206,stroke:#c2185b,stroke-width:1.5px,color:#ff8da1
+    style OPT fill:#2d060e,stroke:#ff003c,stroke-width:2px,color:#ffffff
+    style ASM fill:#1c0308,stroke:#b71c1c,stroke-width:1.5px,color:#ffcdd2
+    style LINK fill:#170206,stroke:#880e4f,stroke-width:1.5px,color:#ff8da1
+    style BIN fill:#3d0811,stroke:#ff003c,stroke-width:2.5px,color:#ffffff
+```
+
+---
+
+## 3. VIRTUAL MEMORY PROCESS TOPOLOGY
+
+```mermaid
+flowchart TD
+    subgraph Process_Address_Space ["Virtual Address Space Layout"]
+        direction TB
+        STACK["Stack Segment: Local scope, downward growth towards heap"]
+        GAP["Unmapped Virtual Page Boundary"]
+        HEAP["Heap Segment: Dynamic allocations, upward growth"]
+        BSS["BSS Segment: Uninitialized global and static variables"]
+        DATA["Data Segment: Initialized global and constant variables"]
+        TEXT["Text Segment: Compiled binary machine instructions (Read-Only)"]
+        
+        STACK --> GAP --> HEAP --> BSS --> DATA --> TEXT
+    end
+
+    style Process_Address_Space fill:#140205,stroke:#4a0b14,stroke-width:1.5px,color:#ff8da1
+    style STACK fill:#33060e,stroke:#ff1744,stroke-width:2px,color:#ffffff
+    style GAP fill:#0a0103,stroke:#24050b,color:#59131f
+    style HEAP fill:#2d060e,stroke:#ff003c,stroke-width:2px,color:#ffffff
+    style BSS fill:#24050b,stroke:#d50000,color:#ffcdd2
+    style DATA fill:#1a0307,stroke:#b71c1c,color:#ff8da1
+    style TEXT fill:#140205,stroke:#880e4f,color:#ff5252
+```
+
+---
+
+## 4. DATA TYPES & HARDWARE BIT-WIDTH MATRIX
+
+| Identifier | Typical Size | Architecture Minimum | Bit Width | Value Range / Precision | Category |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `bool` | 1 byte | 1 byte | 8 bits | true (1) / false (0) | Primitive |
+| `char` | 1 byte | 1 byte | 8 bits | -128 to 127 (signed) or 0 to 255 (unsigned) | Primitive |
+| `short` | 2 bytes | 2 bytes | 16 bits | -32,768 to 32,767 | Primitive |
+| `int` | 4 bytes | 2 bytes | 32 bits | -2,147,483,648 to 2,147,483,647 | Primitive |
+| `long` | 8 bytes (macOS 64-bit) | 4 bytes | 64 bits | -9.22 × 10^18 to 9.22 × 10^18 | Primitive |
+| `long long` | 8 bytes | 8 bytes | 64 bits | -9.22 × 10^18 to 9.22 × 10^18 | Primitive |
+| `float` | 4 bytes | 4 bytes | 32 bits | ~7 decimal digits (IEEE-754 Single Precision) | Primitive |
+| `double` | 8 bytes | 8 bytes | 64 bits | ~15 decimal digits (IEEE-754 Double Precision) | Primitive |
+| `void` | 0 bytes | 0 bytes | 0 bits | Incomplete / valueless pointer target | Primitive |
+| Array | N × sizeof(T) | Size of element | Dynamic | Contiguous sequence of identical types | Derived |
+| Pointer (`*`) | 8 bytes (64-bit) | 8 bytes | 64 bits | Virtual memory address representation | Derived |
+| Reference (`&`) | 8 bytes (alias) | Architecture | 64 bits | Immutable direct memory alias | Derived |
+| `struct` | Sum of fields + padding | 1 byte min | Dynamic | User-defined sequential memory bundle | User-Defined |
+| `class` | Sum of fields + vtable | 1 byte min | Dynamic | Encapsulated memory blueprint with dispatch | User-Defined |
+| `enum` | 4 bytes | 1 to 4 bytes | 32 bits | Discrete named integral constants | User-Defined |
+| `union` | Size of largest member | Size of largest | Dynamic | Overlapping single-slot memory allocation | User-Defined |
+
+---
+
+## 5. TWO'S COMPLEMENT & INTEGER OVERFLOW
+
+Signed 32-bit integer bit distribution:
+
+```text
+VALUE: +100
+[0] 0000000000000000000000001100100
+ |  |-----------------------------|
+ |  +-- Magnitude bits
+ +----- Sign Bit: 0 (Positive)
+
+VALUE: -100 (Inverted bits + 1)
+[1] 1111111111111111111111110011100
+ |  |-----------------------------|
+ |  +-- Two's Complement encoding
+ +----- Sign Bit: 1 (Negative)
+
+UNSIGNED REINTERPRETATION (Underflow / Wrap-Around):
+Assigning -100 to an unsigned int shifts the sign bit into weight 2^31:
+Result: 4,294,967,196 (0xFFFFFF9C)
+```
+
+---
+
+## 6. STREAM I/O BUFFER HANDLING
+
+```mermaid
+flowchart LR
+    KBD["Terminal Input"] --> BUF["Standard Input Buffer (stdin)"]
+    BUF -->|"cin >> token"| T1["Reads contiguous word, stops at whitespace"]
+    BUF -->|"getline(cin, str)"| T2["Extracts full line through newline delimiter"]
+
+    style KBD fill:#1f0409,stroke:#ff1744,stroke-width:1.5px,color:#ffffff
+    style BUF fill:#33060e,stroke:#ff003c,stroke-width:2px,color:#ffcdd2
+    style T1 fill:#24050b,stroke:#d50000,stroke-width:1.5px,color:#ff8da1
+    style T2 fill:#3d0811,stroke:#ff003c,stroke-width:2px,color:#ffffff
+```
+
+---
+
+## 7. REPOSITORY CODE MATRIX
 
 ```plaintext
 cpp/
+├── assets/
+│   └── banner.svg             # Vector red-theme header
+│
 ├── code_notes/
 │   ├── intro_to_cpp/
-│   │   ├── intro.cpp          # Hello World and basic I/O
-│   │   ├── v2.cpp             # Custom namespaces, standard streams, Eigen matrix operations
+│   │   ├── intro.cpp          # Entrypoint structure and stream output
+│   │   ├── v2.cpp             # Namespace partitioning and Eigen matrix math
 │   │   ├── cpp_intro.txt      # Compilation stages, language background
-│   │   └── cpp_v2.txt         # Namespaces and header inclusion mechanics
+│   │   └── cpp_v2.txt         # Linker mechanics and header inclusion
 │   │
 │   ├── 01_varconst/
-│   │   ├── v3.cpp             # Variables, const qualification, stream chaining
-│   │   └── cpp_v3.txt         # Data pipeline: Store -> Process -> Display
+│   │   ├── v3.cpp             # Const immutability and stream concatenation
+│   │   └── cpp_v3.txt         # Memory lifecycle: Store -> Process -> Display
 │   │
 │   └── 02_datatype/
-│       ├── v4.cpp             # Core primitive types in action
-│       ├── modifier.cpp       # Signed vs. unsigned modifiers and wrap-around
-│       ├── typecasting.cpp    # Explicit casting and to_string conversion
-│       ├── myString.cpp       # Strings and escape characters
-│       ├── user_ip.cpp        # cin vs. getline buffer handling
-│       └── v4.txt             # Detailed reference on primitive, derived, and user types
+│       ├── v4.cpp             # Primitive variable allocation
+│       ├── modifier.cpp       # Signed vs. unsigned bits and underflow
+│       ├── typecasting.cpp    # Explicit truncation and string conversion
+│       ├── myString.cpp       # Escape control characters (\n, \t, \", \b)
+│       ├── user_ip.cpp        # Stream buffering: cin vs. getline
+│       └── v4.txt             # Primitive, derived, and user-defined catalog
 │
-├── .vscode/                   # Editor include path configurations
-├── .clangd                    # Clang language server flags
-├── Makefile                   # Build automation
-└── README.md                  # Project documentation
+├── .vscode/                   # Editor include paths
+├── .clangd                    # Clangd compilation flags
+├── Makefile                   # Build directives
+└── README.md                  # Documentation
 ```
 
 ---
 
-## How to Compile and Run
+## 8. TOOLCHAIN COMMANDS
 
 ### Standard Compilation
-Using Apple Clang:
 ```zsh
 clang++ -std=c++17 -Wall -Wextra code_notes/02_datatype/user_ip.cpp -o user_ip
 ./user_ip
 ```
 
-### Compiling with Eigen
-Because Eigen is header-only, provide its include directory using the `-I` flag:
+### Linear Algebra Target (Eigen 3 Integration)
 ```zsh
 clang++ -std=c++17 -I/opt/homebrew/include/eigen3 code_notes/intro_to_cpp/v2.cpp -o v2
 ./v2
 ```
 
-To avoid typing the include path repeatedly in terminal:
-```zsh
-export CPLUS_INCLUDE_PATH="/opt/homebrew/include/eigen3:$CPLUS_INCLUDE_PATH"
-```
-
-### Measuring CPU Execution Time
+### Process CPU Time Profiling
 ```zsh
 time ./v2
 ```
 
 ---
 
-## Progress Tracker
+## 9. PROGRESS TRACKER
 
 - [x] Preprocessor directives, namespaces, and main function entrypoints
 - [x] Variable declaration, mutation, and `const` immutability
