@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="100%" height="100%">
+  <defs>
+    <linearGradient id="matrixBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#140205" />
+      <stop offset="100%" stop-color="#080102" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="380" rx="10" fill="url(#matrixBg)" stroke="#4a0b14" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="30" y="30" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="12" font-weight="800" fill="#ff003c" letter-spacing="2">
+    C++ TYPE SYSTEM &amp; MEMORY SPECIFICATIONS
+  </text>
+  <text x="870" y="30" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="11" fill="#ff8da1">
+    64-BIT QUAD ALIGNED
+  </text>
+  <line x1="30" y1="42" x2="870" y2="42" stroke="#380810" stroke-width="1"/>
+
+  <!-- Column 1: PRIMITIVE TYPES -->
+  <g transform="translate(30, 58)">
+    <rect width="265" height="230" rx="6" fill="#1c0307" stroke="#ff003c" stroke-width="1.2"/>
+    <rect width="265" height="28" rx="6" fill="#2d050c"/>
+    <text x="15" y="19" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" fill="#ff1744">1. PRIMITIVE TYPES</text>
+
+    <text x="15" y="48" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">bool</text>
+    <text x="250" y="48" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff6b81">1 Byte • true/false</text>
+
+    <text x="15" y="72" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">char</text>
+    <text x="250" y="72" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff6b81">1 Byte • -128..127</text>
+
+    <text x="15" y="96" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">short</text>
+    <text x="250" y="96" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff6b81">2 Bytes • 16-bit</text>
+
+    <text x="15" y="120" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">int</text>
+    <text x="250" y="120" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff3366">4 Bytes • 32-bit</text>
+
+    <text x="15" y="144" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">long / long long</text>
+    <text x="250" y="144" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff6b81">8 Bytes • 64-bit</text>
+
+    <text x="15" y="168" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">float (IEEE-754)</text>
+    <text x="250" y="168" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff6b81">4 Bytes • ~7 dig</text>
+
+    <text x="15" y="192" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">double (IEEE-754)</text>
+    <text x="250" y="192" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff6b81">8 Bytes • ~15 dig</text>
+
+    <text x="15" y="216" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">void</text>
+    <text x="250" y="216" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="10" fill="#880e4f">0 Bytes • Untyped</text>
+  </g>
+
+  <!-- Column 2: DERIVED TYPES -->
+  <g transform="translate(315, 58)">
+    <rect width="265" height="230" rx="6" fill="#1c0307" stroke="#ff1744" stroke-width="1.2"/>
+    <rect width="265" height="28" rx="6" fill="#2d050c"/>
+    <text x="15" y="19" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" fill="#ff1744">2. DERIVED TYPES</text>
+
+    <text x="15" y="52" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ffffff">Array [N]</text>
+    <text x="15" y="68" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff8da1">Contiguous element sequence</text>
+    <text x="15" y="82" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">Footprint: N × sizeof(T)</text>
+
+    <line x1="15" y1="95" x2="250" y2="95" stroke="#380810"/>
+
+    <text x="15" y="115" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ffffff">Pointer (*ptr)</text>
+    <text x="15" y="131" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff8da1">Stores raw virtual memory address</text>
+    <text x="15" y="145" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff3366">Size: 8 Bytes (ARM64 64-bit)</text>
+
+    <line x1="15" y1="158" x2="250" y2="158" stroke="#380810"/>
+
+    <text x="15" y="178" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ffffff">Reference (&amp;ref)</text>
+    <text x="15" y="194" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff8da1">Direct compile-time memory alias</text>
+    <text x="15" y="208" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff3366">Zero runtime dereference overhead</text>
+  </g>
+
+  <!-- Column 3: USER-DEFINED TYPES -->
+  <g transform="translate(600, 58)">
+    <rect width="270" height="230" rx="6" fill="#1c0307" stroke="#d50000" stroke-width="1.2"/>
+    <rect width="270" height="28" rx="6" fill="#2d050c"/>
+    <text x="15" y="19" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" fill="#ff1744">3. USER-DEFINED TYPES</text>
+
+    <text x="15" y="52" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ffffff">struct</text>
+    <text x="15" y="68" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff8da1">Contiguous public field layout</text>
+    <text x="15" y="82" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">Size: Sum of members + alignment</text>
+
+    <line x1="15" y1="95" x2="255" y2="95" stroke="#380810"/>
+
+    <text x="15" y="115" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ffffff">class</text>
+    <text x="15" y="131" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff8da1">Encapsulated OOP memory layout</text>
+    <text x="15" y="145" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">Size: Fields + Vtable pointer (8B)</text>
+
+    <line x1="15" y1="158" x2="255" y2="158" stroke="#380810"/>
+
+    <text x="15" y="178" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ffffff">union / enum</text>
+    <text x="15" y="194" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ff8da1">union: Overlaps same memory slot</text>
+    <text x="15" y="208" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">enum: 4-byte integral named set</text>
+  </g>
+
+  <!-- Bottom Panel: Two's Complement Integer Layout -->
+  <g transform="translate(30, 300)">
+    <rect width="840" height="60" rx="6" fill="#140205" stroke="#4a0b14" stroke-width="1"/>
+    <text x="15" y="22" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#ff1744">32-BIT TWO'S COMPLEMENT WRAP-AROUND:</text>
+    <text x="15" y="42" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ffffff">
+      SIGNED -100: [1] 1111111111111111111111110011100 • REINTERPRETED AS UNSIGNED: 4,294,967,196 (0xFFFFFF9C)
+    </text>
+  </g>
+</svg>

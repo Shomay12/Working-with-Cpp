@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250" width="100%" height="100%">
+  <defs>
+    <linearGradient id="panelBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#140205" />
+      <stop offset="100%" stop-color="#090103" />
+    </linearGradient>
+  </defs>
+
+  <!-- Container -->
+  <rect width="900" height="250" rx="10" fill="url(#panelBg)" stroke="#4a0b14" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="30" y="32" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="12" font-weight="800" fill="#ff003c" letter-spacing="2">
+    HARDWARE CACHE LATENCY &amp; DATA BUS PIPELINE
+  </text>
+  <text x="870" y="32" text-anchor="end" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="11" fill="#ff8da1">
+    BANDWIDTH: UNIFIED MEMORY ARCHITECTURE
+  </text>
+  <line x1="30" y1="44" x2="870" y2="44" stroke="#380810" stroke-width="1"/>
+
+  <!-- Static Base Bus Line -->
+  <line x1="120" y1="130" x2="780" y2="130" stroke="#2b050d" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Animated Glowing Data Bus Packets -->
+  <line x1="120" y1="130" x2="780" y2="130" stroke="#ff003c" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 12">
+    <animate attributeName="stroke-dashoffset" from="100" to="0" dur="1.8s" repeatCount="indefinite" />
+  </line>
+
+  <!-- Node 1: Registers (L0) -->
+  <g transform="translate(50, 70)">
+    <rect width="135" height="120" rx="6" fill="#1c0307" stroke="#ff003c" stroke-width="2"/>
+    <circle cx="67" cy="24" r="10" fill="#ff003c" fill-opacity="0.2"/>
+    <circle cx="67" cy="24" r="5" fill="#ff003c">
+      <animate attributeName="r" values="3;7;3" dur="1.5s" repeatCount="indefinite" />
+    </circle>
+    <text x="67" y="52" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="#ffffff">CPU REGISTERS</text>
+    <text x="67" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ff3366">~0.3 ns</text>
+    <text x="67" y="93" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff8da1">1 CYCLE</text>
+    <text x="67" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">DIRECT ALU</text>
+  </g>
+
+  <!-- Node 2: L1 Cache -->
+  <g transform="translate(215, 70)">
+    <rect width="135" height="120" rx="6" fill="#1c0307" stroke="#ff1744" stroke-width="1.5"/>
+    <circle cx="67" cy="24" r="10" fill="#ff1744" fill-opacity="0.2"/>
+    <circle cx="67" cy="24" r="5" fill="#ff1744"/>
+    <text x="67" y="52" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="#ffffff">L1 CACHE</text>
+    <text x="67" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ff3366">~1.2 ns</text>
+    <text x="67" y="93" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff8da1">4 CYCLES</text>
+    <text x="67" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">CORE-PRIVATE</text>
+  </g>
+
+  <!-- Node 3: L2 Cache -->
+  <g transform="translate(380, 70)">
+    <rect width="135" height="120" rx="6" fill="#1c0307" stroke="#d50000" stroke-width="1.5"/>
+    <circle cx="67" cy="24" r="10" fill="#d50000" fill-opacity="0.2"/>
+    <circle cx="67" cy="24" r="5" fill="#d50000"/>
+    <text x="67" y="52" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="#ffffff">L2 CACHE</text>
+    <text x="67" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ff3366">~3.5 ns</text>
+    <text x="67" y="93" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff8da1">12 CYCLES</text>
+    <text x="67" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">MID BUFFER</text>
+  </g>
+
+  <!-- Node 4: L3 Cache -->
+  <g transform="translate(545, 70)">
+    <rect width="135" height="120" rx="6" fill="#1c0307" stroke="#b71c1c" stroke-width="1.5"/>
+    <circle cx="67" cy="24" r="10" fill="#b71c1c" fill-opacity="0.2"/>
+    <circle cx="67" cy="24" r="5" fill="#b71c1c"/>
+    <text x="67" y="52" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="#ffffff">L3 CACHE</text>
+    <text x="67" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ff3366">~12 ns</text>
+    <text x="67" y="93" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff8da1">40 CYCLES</text>
+    <text x="67" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">SHARED LLC</text>
+  </g>
+
+  <!-- Node 5: RAM -->
+  <g transform="translate(710, 70)">
+    <rect width="140" height="120" rx="6" fill="#1c0307" stroke="#880e4f" stroke-width="1.5"/>
+    <circle cx="70" cy="24" r="10" fill="#880e4f" fill-opacity="0.2"/>
+    <circle cx="70" cy="24" r="5" fill="#880e4f"/>
+    <text x="70" y="52" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="#ffffff">MAIN MEMORY</text>
+    <text x="70" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#ff3366">~60 ns</text>
+    <text x="70" y="93" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#ff8da1">~200 CYCLES</text>
+    <text x="70" y="108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#ffcdd2">RAM / HEAP</text>
+  </g>
+
+  <!-- Footer Flow Indicator -->
+  <text x="450" y="224" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#ff6b81">
+    HIGHEST SPEED &lt;==================== DATA LATENCY SPECTRUM ====================&gt; HIGHEST CAPACITY
+  </text>
+</svg>

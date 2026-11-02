@@ -15,55 +15,35 @@
 
 ## 1. HARDWARE CACHE & MEMORY ACCESS PIPELINE
 
-```mermaid
-flowchart LR
-    REG["L0: CPU Registers<br/>Latency: ~0.3 ns<br/>Cycles: 1 cycle"] --> L1["L1 Cache<br/>Latency: ~1.2 ns<br/>Cycles: 4 cycles"]
-    L1 --> L2["L2 Cache<br/>Latency: ~3.5 ns<br/>Cycles: 12 cycles"]
-    L2 --> L3["L3 Cache<br/>Latency: ~12 ns<br/>Cycles: 40 cycles"]
-    L3 --> RAM["DDR5 Main Memory<br/>Latency: ~60 ns<br/>Cycles: ~200 cycles"]
+<div align="center">
 
-    style REG fill:#3d0811,stroke:#ff003c,stroke-width:2px,color:#ffffff
-    style L1 fill:#33060e,stroke:#ff1744,stroke-width:2px,color:#ffcdd2
-    style L2 fill:#29040a,stroke:#d50000,stroke-width:2px,color:#ff8da1
-    style L3 fill:#1f0307,stroke:#b71c1c,stroke-width:2px,color:#ff6b81
-    style RAM fill:#140205,stroke:#880e4f,stroke-width:2px,color:#ff5252
-```
+![Hardware Cache Latency Pipeline](assets/cache_hierarchy.svg)
 
-| Memory Tier | Access Latency | Processor Cycles | Functional Role |
-| :--- | :--- | :--- | :--- |
-| CPU Registers | ~0.3 ns | 1 cycle | Direct instruction operands, accumulator, stack pointer |
-| L1 Cache | ~1.2 ns | 4 cycles | Core-private instruction (L1i) and data (L1d) caches |
-| L2 Cache | ~3.5 ns | 12 cycles | Mid-tier non-inclusive core buffer |
-| L3 Cache | ~12 ns | 40 cycles | Last-Level Cache (LLC) shared across all active execution cores |
-| Main Memory | ~60 ns | ~200 cycles | Physical RAM pages, operating system heap, dynamic memory |
+</div>
 
 ---
 
 ## 2. LLVM CLANG CODEGEN & COMPILATION PIPELINE
 
-```mermaid
-flowchart TD
-    SRC["Source Code Files (.cpp, .hpp)"] --> PRE["Preprocessor: Macro Expansion and Header Resolution"]
-    PRE --> LEX["Lexer and Parser: Abstract Syntax Tree (AST) Generation"]
-    LEX --> IR["LLVM Intermediate Representation (LLVM-IR)"]
-    IR --> OPT["Optimization Engine: Loop Unrolling and SIMD Vectorization (-O3)"]
-    OPT --> ASM["Assembly Codegen: Mach-O ARM64 Instructions"]
-    ASM --> LINK["Linker: Symbol Resolution and Dynamic Library Linking"]
-    LINK --> BIN["Executable Mach-O ARM64 Binary"]
+<div align="center">
 
-    style SRC fill:#24050b,stroke:#ff1744,stroke-width:1.5px,color:#ffffff
-    style PRE fill:#1f0409,stroke:#ff003c,stroke-width:1.5px,color:#ffcdd2
-    style LEX fill:#1a0307,stroke:#d50000,stroke-width:1.5px,color:#ff8da1
-    style IR fill:#170206,stroke:#c2185b,stroke-width:1.5px,color:#ff8da1
-    style OPT fill:#2d060e,stroke:#ff003c,stroke-width:2px,color:#ffffff
-    style ASM fill:#1c0308,stroke:#b71c1c,stroke-width:1.5px,color:#ffcdd2
-    style LINK fill:#170206,stroke:#880e4f,stroke-width:1.5px,color:#ff8da1
-    style BIN fill:#3d0811,stroke:#ff003c,stroke-width:2.5px,color:#ffffff
-```
+![LLVM Compilation Pipeline](assets/compilation_pipeline.svg)
+
+</div>
 
 ---
 
-## 3. VIRTUAL MEMORY PROCESS TOPOLOGY
+## 3. C++ TYPE SYSTEM & MEMORY SPECIFICATIONS
+
+<div align="center">
+
+![C++ Type System Matrix](assets/type_matrix.svg)
+
+</div>
+
+---
+
+## 4. VIRTUAL MEMORY PROCESS TOPOLOGY
 
 ```mermaid
 flowchart TD
@@ -90,54 +70,7 @@ flowchart TD
 
 ---
 
-## 4. DATA TYPES & HARDWARE BIT-WIDTH MATRIX
-
-| Identifier | Typical Size | Architecture Minimum | Bit Width | Value Range / Precision | Category |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `bool` | 1 byte | 1 byte | 8 bits | true (1) / false (0) | Primitive |
-| `char` | 1 byte | 1 byte | 8 bits | -128 to 127 (signed) or 0 to 255 (unsigned) | Primitive |
-| `short` | 2 bytes | 2 bytes | 16 bits | -32,768 to 32,767 | Primitive |
-| `int` | 4 bytes | 2 bytes | 32 bits | -2,147,483,648 to 2,147,483,647 | Primitive |
-| `long` | 8 bytes (macOS 64-bit) | 4 bytes | 64 bits | -9.22 × 10^18 to 9.22 × 10^18 | Primitive |
-| `long long` | 8 bytes | 8 bytes | 64 bits | -9.22 × 10^18 to 9.22 × 10^18 | Primitive |
-| `float` | 4 bytes | 4 bytes | 32 bits | ~7 decimal digits (IEEE-754 Single Precision) | Primitive |
-| `double` | 8 bytes | 8 bytes | 64 bits | ~15 decimal digits (IEEE-754 Double Precision) | Primitive |
-| `void` | 0 bytes | 0 bytes | 0 bits | Incomplete / valueless pointer target | Primitive |
-| Array | N × sizeof(T) | Size of element | Dynamic | Contiguous sequence of identical types | Derived |
-| Pointer (`*`) | 8 bytes (64-bit) | 8 bytes | 64 bits | Virtual memory address representation | Derived |
-| Reference (`&`) | 8 bytes (alias) | Architecture | 64 bits | Immutable direct memory alias | Derived |
-| `struct` | Sum of fields + padding | 1 byte min | Dynamic | User-defined sequential memory bundle | User-Defined |
-| `class` | Sum of fields + vtable | 1 byte min | Dynamic | Encapsulated memory blueprint with dispatch | User-Defined |
-| `enum` | 4 bytes | 1 to 4 bytes | 32 bits | Discrete named integral constants | User-Defined |
-| `union` | Size of largest member | Size of largest | Dynamic | Overlapping single-slot memory allocation | User-Defined |
-
----
-
-## 5. TWO'S COMPLEMENT & INTEGER OVERFLOW
-
-Signed 32-bit integer bit distribution:
-
-```text
-VALUE: +100
-[0] 0000000000000000000000001100100
- |  |-----------------------------|
- |  +-- Magnitude bits
- +----- Sign Bit: 0 (Positive)
-
-VALUE: -100 (Inverted bits + 1)
-[1] 1111111111111111111111110011100
- |  |-----------------------------|
- |  +-- Two's Complement encoding
- +----- Sign Bit: 1 (Negative)
-
-UNSIGNED REINTERPRETATION (Underflow / Wrap-Around):
-Assigning -100 to an unsigned int shifts the sign bit into weight 2^31:
-Result: 4,294,967,196 (0xFFFFFF9C)
-```
-
----
-
-## 6. STREAM I/O BUFFER HANDLING
+## 5. STREAM I/O BUFFER HANDLING
 
 ```mermaid
 flowchart LR
@@ -153,12 +86,15 @@ flowchart LR
 
 ---
 
-## 7. REPOSITORY CODE MATRIX
+## 6. REPOSITORY CODE MATRIX
 
 ```plaintext
 cpp/
 ├── assets/
-│   └── banner.svg             # Vector red-theme header
+│   ├── banner.svg             # Animated vector red-theme header
+│   ├── cache_hierarchy.svg    # Animated hardware cache latency pipeline
+│   ├── compilation_pipeline.svg # Animated LLVM compilation flow
+│   └── type_matrix.svg        # Graphical type system matrix & underflow map
 │
 ├── code_notes/
 │   ├── intro_to_cpp/
@@ -187,7 +123,7 @@ cpp/
 
 ---
 
-## 8. TOOLCHAIN COMMANDS
+## 7. TOOLCHAIN COMMANDS
 
 ### Standard Compilation
 ```zsh
@@ -208,7 +144,7 @@ time ./v2
 
 ---
 
-## 9. PROGRESS TRACKER
+## 8. PROGRESS TRACKER
 
 - [x] Preprocessor directives, namespaces, and main function entrypoints
 - [x] Variable declaration, mutation, and `const` immutability
