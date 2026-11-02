@@ -1,0 +1,10 @@
+hey we are working on the variable and the constant 
+
+DATA{
+    work--> 1 . Store { string , booleans , int etc --------> ds(data structure)}
+            2 . Processing { processing like doing the conditions loops etc-------> algo part }
+            -----------------------------------------------------------------
+            3 . Display[this is the end point so this is not that much the imp
+            part here this is obious part]
+}
+

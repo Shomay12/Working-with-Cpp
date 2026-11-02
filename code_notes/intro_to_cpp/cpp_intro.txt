@@ -1,0 +1,50 @@
+CPP
+
+introduction to C++ ---> chai aur code
+hey we are going with the cpp by chai and code 
+
+
+why cpp ?
+1. platform independent 
+2. object-oriented 
+3. statically-typed 
+4. speed 
+5. Pointers 
+ its a open source language 
+
+ staticallty typed 
+ {
+    this is mean the defination kinda programming language 
+    kind of fully commanded by the devloper and written by 
+    the devloper 
+ }
+
+ why i'm studying this language -> i want to go for the cpython that's why i'm going with
+this language and i have to build my own inference engine and do the stuff of mine own 
+
+cpp used to design the lib like tensorflow , scikit-learn , pytorch , java , python engines 
+are builf on this cpp
+
+used to optimize the performance and the cpp used is the only language after the asambly 
+which ahving the speed and the code which is still relevent these days ---> having the much 
+drivers like all kinda drivers there are in there 
+
+here the most key point is the memory manegement the cpp is the one of the few language which are 
+giving a hand to the memory directly without any garbage collection kinda shit 
+
+
+bjarne stroustrup ------> cpp's father 
+cpp 11:- auto,lamda, smart pointers 
+cpp 14: generics 
+cpp 23: rust inspired 
+
+
+why cpp {in referece of video}
+it is best to understand the system working
+
+cpp run ?
+cpp--->compiler----> binaries(executable file )-->we run 
+documentation --> self study ---- paid 
+
+cpp-----> Mircosoft(documentation)
+binaries ----> clang,cmake ,mingGW

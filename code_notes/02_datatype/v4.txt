@@ -1,0 +1,53 @@
+here we are going with the DataTypes 
+                         DATATYPE
+
+
+cpp------> datasize------>    
+Data Type	Typical Size	Minimum Size	Common Range
+bool	1 byte	1 byte	true or false
+char	1 byte	1 byte	-128 to 127 (signed) or 0 to 255 (unsigned)
+short	2 bytes	2 bytes	-32,768 to 32,767
+int	4 bytes	2 bytes	-2,147,483,648 to 2,147,483,647
+long	4 or 8 bytes	4 bytes	Depends on OS (4 bytes on Windows, 8 on Linux 64-bit)
+long long	8 bytes	8 bytes	-9.2 quintillion to 9.2 quintillion
+float	4 bytes	4 bytes	~7 digits precision
+double	8 bytes	8 bytes	~15 digits precision
+long double	8, 12, or 16 bytes	8 bytes	Varies by compiler
+
+DATATYPES TYPES {
+    1.PRIMITIVE{
+        Those datatypes which are pre-defiend by the langauage devlopers like int , str ,bool etc 
+        {{
+            int , float , double 
+        }{
+            char 
+        }{
+            booleans , void ----->(this stores null/empty or i don't care about what the datatype is 
+            returning or returned to be ......Eg.-> suppose we can't get the temp
+            from the server here we can't say it's 0 cause 0 have it's importance in the temprature 
+            segments 
+        }}
+    }
+    2.DERIVED{
+        Those datatype which are enhance version or we can say like which are made by the primitive datatypes like 
+        array etc 
+        {{
+            Array--> Collection of the similar datatypes ,
+            function
+            pointers
+            refereces
+        }}
+    }
+    3.USER-DEFINED{
+        Those data structure which are built by the end user devoper who is using the lang devlope it's
+        own datatypes using the primitive , derived DT such as trees , graphs , stack , queues etc 
+        {{
+            structures 
+            union
+            enum
+            classes
+            typedef
+        }}
+    }
+}
+

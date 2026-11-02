@@ -1,0 +1,11 @@
+anatomy of the cpp{
+    os ----> understand the *main* fucntion only because it's the standard for it 
+    like in the java the main is the primary work space primary class where the 
+    other class and instence used other methods can be used at the output level like from 
+    where the end compile done---> because the system undestand the stuff by the main class 
+    cause it is set for the understand by the os its stnadardized by the devlopers of the cpp
+    main :- the control over the program is conduct by the main function or method , the nearest
+    object by the os  
+
+
+}
