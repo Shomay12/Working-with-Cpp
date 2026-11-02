@@ -20,7 +20,7 @@
 
   <!-- Title bar -->
   <text x="35" y="32" class="mono" font-size="12" font-weight="800" fill="#00f0ff" letter-spacing="2">
-    BITSTREAM ARCHITECTURE &bull; IEEE-754 &amp; LOW-LEVEL PRIMITIVES
+    BITSTREAM ARCHITECTURE • IEEE-754 &amp; LOW-LEVEL PRIMITIVES
   </text>
   <text x="865" y="32" text-anchor="end" class="mono" font-size="11" fill="#4d6582">
     ARCH: 64-BIT LITTLE ENDIAN
@@ -59,7 +59,7 @@
     <!-- Value bits (31 bits) -->
     <rect x="35" y="24" width="785" height="28" rx="4" fill="#39ff14" fill-opacity="0.15" stroke="#39ff14" stroke-width="1"/>
     <text x="427" y="42" text-anchor="middle" class="mono" font-size="10" font-weight="700" fill="#39ff14">
-      MAGNITUDE (31 BITS) &mdash;&mdash;&gt; IN UNSIGNED: REINTERPRETED AS 2^31 WEIGHT
+      MAGNITUDE (31 BITS) ——&gt; IN UNSIGNED: REINTERPRETED AS 2^31 WEIGHT
     </text>
   </g>
 
@@ -71,7 +71,7 @@
 
     <rect x="0" y="22" width="820" height="24" rx="4" fill="#0e182a" stroke="#00f0ff" stroke-width="1" stroke-dasharray="4,4"/>
     <text x="410" y="38" text-anchor="middle" class="mono" font-size="11" font-weight="700" fill="#00f0ff">
-      0x00007FFEE4B201A8 &bull; DIRECT MEMORY ADDRESS BUS (STACK FRAME REGISTER)
+      0x00007FFEE4B201A8 • DIRECT MEMORY ADDRESS BUS (STACK FRAME REGISTER)
     </text>
   </g>
 </svg>

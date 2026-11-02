@@ -88,7 +88,7 @@
     C++ <tspan fill="#00f0ff">SYSTEMS</tspan> ENGINE
   </text>
   <text x="50" y="125" class="mono" font-size="13" font-weight="600" fill="#00f0ff" letter-spacing="1.5">
-    DIRECT HARDWARE MAPPING &bull; HEAP/STACK DYNAMICS &bull; HIGH THROUGHPUT
+    DIRECT HARDWARE MAPPING • HEAP/STACK DYNAMICS • HIGH THROUGHPUT
   </text>
 
   <!-- Terminal Command Prompt Box -->
@@ -102,7 +102,7 @@
     [LLVM-IR] <tspan fill="#00f0ff">Vectorizing inner loops...</tspan> <tspan fill="#39ff14">DONE (Neon 128-bit SIMD)</tspan>
   </text>
   <text x="75" y="228" class="mono" font-size="12" fill="#627d9d">
-    [MEMORY]  <tspan fill="#ffa657">Virtual Address Space Initialized</tspan> &bull; Zero Overhead Allocation
+    [MEMORY]  <tspan fill="#ffa657">Virtual Address Space Initialized</tspan> • Zero Overhead Allocation
   </text>
   <text x="75" y="248" class="mono" font-size="12" fill="#39ff14">
     [STATUS]  <tspan fill="#ffffff">Ready. Direct Pointer Manipulation Active</tspan><tspan class="cursor" fill="#00f0ff">_</tspan>

@@ -37,10 +37,10 @@ High-performance computing and native engine architecture require direct governa
 </div>
 
 Direct memory access speed scales drastically depending on where data resides relative to the CPU arithmetic logic units:
-* **Registers (L0):** Direct single-cycle instruction execution ($~0.3\text{ ns}$).
-* **L1 Data Cache:** Micro-architectural cache hits ($~4\text{ cycles}$).
-* **L2/L3 Shared Caches:** Inter-core arbitration ($~12\text{ to }40\text{ cycles}$).
-* **Unified Memory (RAM):** Highest latency penalty ($~200\text{ cycles}$) when traversing virtual memory page tables.
+* **Registers (L0):** Direct single-cycle instruction execution (~0.3 ns).
+* **L1 Data Cache:** Micro-architectural cache hits (~4 cycles).
+* **L2/L3 Shared Caches:** Inter-core arbitration (~12 to 40 cycles).
+* **Unified Memory (RAM):** Highest latency penalty (~200 cycles) when traversing virtual memory page tables.
 
 ---
 
@@ -49,18 +49,18 @@ Direct memory access speed scales drastically depending on where data resides re
 ```mermaid
 flowchart TD
     subgraph Frontend ["Front-End Phase"]
-        SRC["Source Code (*.cpp, *.hpp)"] --> PRE["Preprocessor: Macro Expansion & Headers (#include)"]
-        PRE --> LEX["Lexer & Parser: Token Stream -> AST Generation"]
+        SRC["Source Code Files (.cpp, .hpp)"] --> PRE["Preprocessor: Macro Expansion and Headers"]
+        PRE --> LEX["Lexer and Parser: Token Stream to AST Generation"]
     end
 
     subgraph Middle ["Optimizer Phase (LLVM)"]
         LEX --> IR["LLVM Intermediate Representation (IR)"]
-        IR --> OPT["Dead Code Elimination & Loop Vectorization (-O3)"]
+        IR --> OPT["Dead Code Elimination and Loop Vectorization (-O3)"]
     end
 
     subgraph Backend ["Target Architecture (ARM64)"]
         OPT --> ASM["Assembly Emission (Mach-O ARM64 Instructions)"]
-        ASM --> LINK["Linker: Symbol Resolution & External Dylibs"]
+        ASM --> LINK["Linker: Symbol Resolution and Dynamic Libraries"]
         LINK --> ELF["Executable Native Binary"]
     end
 
@@ -86,15 +86,15 @@ flowchart TD
 </div>
 
 ```mermaid
-graph LR
+flowchart TD
     subgraph Virtual_Address_Space ["Virtual Memory Layout (Process Space)"]
         direction TB
-        STACK["Stack Segment (Fast, Local Scope, Growth: Downward ▼)"]
+        STACK["Stack Segment (Fast, Local Scope, Growth: Downward)"]
         GAP["Unallocated Address Range"]
-        HEAP["Heap Segment (Dynamic, Manual Allocation, Growth: Upward ▲)"]
-        BSS["BSS Segment (Uninitialized Globals / Statics)"]
-        DATA["Data Segment (Initialized Globals / Constants)"]
-        TEXT["Text Segment (Binary Instructions, Read-Only)"]
+        HEAP["Heap Segment (Dynamic Allocation, Growth: Upward)"]
+        BSS["BSS Segment (Uninitialized Globals and Statics)"]
+        DATA["Data Segment (Initialized Globals and Constants)"]
+        TEXT["Text Segment (Binary Machine Instructions, Read-Only)"]
         
         STACK --> GAP --> HEAP --> BSS --> DATA --> TEXT
     end
@@ -114,9 +114,9 @@ graph LR
 
 ```mermaid
 flowchart LR
-    KBD["Keyboard Input"] --> BUF["Terminal Standard Input Buffer (stdin)"]
-    BUF -->|"cin >> token (Stops at space / newline)"| VAR1["Variable 1"]
-    BUF -->|"getline(cin, str) (Consumes through '\n')"| VAR2["Full Line String"]
+    KBD["Keyboard Input"] --> BUF["Standard Input Buffer (stdin)"]
+    BUF -->|"cin stream (whitespace delimited)"| VAR1["Variable 1"]
+    BUF -->|"getline stream (newline delimited)"| VAR2["Full Line String"]
 
     style KBD fill:#161b22,stroke:#30363d,color:#c9d1d9
     style BUF fill:#161b22,stroke:#ffa657,stroke-width:2px,color:#ffa657

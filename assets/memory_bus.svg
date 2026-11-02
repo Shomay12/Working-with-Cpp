@@ -98,7 +98,7 @@
 
   <!-- Bottom Legend -->
   <text x="450" y="215" text-anchor="middle" class="mono" font-size="11" fill="#627d9d">
-    <tspan fill="#39ff14">FASTEST</tspan> &larr;&mdash;&mdash;&mdash; Data Proximity vs Latency Penalty &mdash;&mdash;&mdash;&rarr; <tspan fill="#ff0055">PAGE FAULTS</tspan>
+    <tspan fill="#39ff14">FASTEST</tspan> ←——— Data Proximity vs Latency Penalty ———→ <tspan fill="#ff0055">PAGE FAULTS</tspan>
   </text>
 </svg>
 
